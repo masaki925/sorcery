@@ -37,12 +37,14 @@ module Sorcery
                               :user_info_mapping,
                               :display,
                               :access_permissions,
-                              :access_token
+                              :access_token,
+                              :api_version
 
                 include Protocols::Oauth2
             
                 def init
                   @site           = "https://graph.facebook.com"
+                  @api_version    = "2.0"
                   @user_info_path = "/me"
                   @scope          = "email,offline_access"
                   @user_info_mapping = {}
@@ -55,7 +57,8 @@ module Sorcery
                 
                 def get_user_hash
                   user_hash = {}
-                  response = @access_token.get(@user_info_path)
+
+                  response = @access_token.get("/v" + @api_version + @user_info_path)
                   user_hash[:user_info] = JSON.parse(response.body)
                   user_hash[:uid] = user_hash[:user_info]['id']
                   user_hash
