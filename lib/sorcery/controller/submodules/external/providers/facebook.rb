@@ -50,7 +50,7 @@ module Sorcery
                   @user_info_mapping = {}
                   @display        = "page"
                   @token_url      = "oauth/access_token"
-                  @mode           = :json
+                  @mode           = :query
                   @parse          = :json
                   @param_name     = "access_token"
                 end
