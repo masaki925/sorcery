@@ -16,7 +16,7 @@ module Sorcery
               base.module_eval do
                 class << self
                   attr_reader :facebook                           # access to facebook_client.
-                  
+
                   def merge_facebook_defaults!
                     @defaults.merge!(:@facebook => FacebookClient)
                   end
@@ -25,7 +25,7 @@ module Sorcery
                 update!
               end
             end
-          
+
             module FacebookClient
               class << self
                 attr_accessor :key,
@@ -41,20 +41,20 @@ module Sorcery
                               :api_version
 
                 include Protocols::Oauth2
-            
+
                 def init
                   @site           = "https://graph.facebook.com"
-                  @api_version    = "2.0"
+                  @api_version    = "2.8"
                   @user_info_path = "/me"
                   @scope          = "email,offline_access"
                   @user_info_mapping = {}
                   @display        = "page"
                   @token_url      = "oauth/access_token"
-                  @mode           = :query
-                  @parse          = :query
+                  @mode           = :json
+                  @parse          = :json
                   @param_name     = "access_token"
                 end
-                
+
                 def get_user_hash
                   user_hash = {}
 
@@ -63,11 +63,11 @@ module Sorcery
                   user_hash[:uid] = user_hash[:user_info]['id']
                   user_hash
                 end
-                
+
                 def has_callback?
                   true
                 end
-                
+
                 # calculates and returns the url to which the user should be redirected,
                 # to get authenticated at the external provider's site.
                 def login_url(params,session)
@@ -97,13 +97,13 @@ module Sorcery
                     :parse => @parse
                   }
                 end
-                
+
               end
               init
             end
-            
+
           end
-        end    
+        end
       end
     end
   end
